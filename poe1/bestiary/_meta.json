@@ -1,13 +1,1 @@
-{
-  "game": "poe1",
-  "gamePatch": "3.29.3.3",
-  "source": "BestiaryCapturableMonsters → MonsterVarieties.Name (+ BestiaryGenus.Name)",
-  "beasts": 386,
-  "langs": [
-    "en",
-    "kr",
-    "tw",
-    "ru",
-    "jp"
-  ]
-}
+{"game":"poe1","gamePatch":"3.30.0.2","source":"BestiaryCapturableMonsters → MonsterVarieties.Name (+ BestiaryGenus.Name)","beasts":387,"langs":["en","kr","tw","ru","jp"]}
