@@ -1,9 +1,1 @@
-{
-  "schemaVersion": "1.1",
-  "games": [
-    "poe1",
-    "poe2"
-  ],
-  "generatedAt": "2026-10-20T17:51:39.986Z",
-  "snapshot": "v2026.10.21"
-}
+{"schemaVersion":"1.1","games":["poe1","poe2"],"generatedAt":"2026-11-15T13:27:42.940Z","snapshot":"v2026.11.15"}

@@ -4,7 +4,7 @@
   "audience": [
     "poe-loot-overlay"
   ],
-  "gamePatch": "4.5.5.4.2",
+  "gamePatch": "4.5.5.7",
   "summary": {
     "totalItems": 4892,
     "ready": 4892,
@@ -36332,7 +36332,7 @@
       "visualIdentityId": "SupportGemExplosiveGrowth",
       "names": {
         "en": "Accelerated Growth",
-        "kr": "가속된 성장"
+        "kr": "재빠른 성장"
       },
       "sourceDds": "Art/2DItems/Gems/New/NewSupport/ExplosiveGrowthSupportGem.dds",
       "assetSha256": "7cfb44bbf8989e4f5654220a2e725bb11cb5bd0c8274085c6a42bacec302de8c",
