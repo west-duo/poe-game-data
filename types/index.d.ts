@@ -193,6 +193,12 @@ export interface BaseItem {
   name: LocalizedString;
   dropLevel: number;
   image: string | null;
+  /**
+   * poe1 점술 카드만 있다 — 카드 앞면 그림 이름(GGPK DivinationCardArt.ArtFile 끝 이름, 예 "TheDoctor"). GGG CDN
+   * `https://web.poecdn.com/image/divination-card/<cardArt>.png` 와 같다(v2026.11.17 에서 470장·그림 469개 전수 확인).
+   * 카드 베이스 그림(ItemVisualIdentity)은 모든 카드가 같은 뒷면이라 카드를 가를 수 없다.
+   */
+  cardArt?: string;
   spec: unknown | null;
   currency: unknown | null;
   flavour: LocalizedString | null;
