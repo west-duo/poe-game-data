@@ -24,12 +24,17 @@
 **소비처가 보는 것은 태그다.** jsDelivr 은 이 저장소를 태그로 고정해 받아 가므로, develop 에
 머지하는 것만으로는 소비처에 아무 영향이 없다. 배포는 별도 태그 생성 시점에 일어난다.
 
-**예외 — 운영 가격기는 `master` 끝을 읽는다 (BLOCKING, 2026-10-13 사고).** smng-poe-pricer 운영의
-`run_prod_hourly.ps1` 이 이 저장소를 매시간 `master` 끝으로 fast-forward 하고, 가격기는 그 snapshot 이 자기
-lock 과 다르면 `ValueError` 로 멈춘다. **`master` 를 올리는 것은 운영 가격기 배포와 한 묶음이다** — 운영 가격기가
-같은 lock 으로 배포된 뒤에(또는 같은 창에서 바로 이어서) 올린다. 2026-10-13 에 v2026.10.13.1 로 먼저 올렸다가
-운영 파이프라인·PSAPI 수집기가 12:06 부터 `snapshot 불일치` 로 실패했고, 옛 트리를 담은 되돌림 커밋(e97b081)으로
-복구했다. 강제 push 로 되돌리면 운영의 ff 동기화가 따라오지 못한다 — 되돌릴 때도 새 커밋으로 한다.
+**운영 가격기도 태그(lock 커밋)를 읽는다 — `master` 끝이 아니다 (2026-10-13 사고 뒤 바뀜).** smng-poe-pricer
+운영의 `run_prod_hourly.ps1` 은 매시간, BE 배포(`release.sh` 의 game-data 고정 단계)는 배포 때 이 저장소 체크아웃을
+가격기 `poe-game-data.lock.json` 의 커밋으로 맞춘다(`Sync-GameDataToLock`, pricer #527 2026-10-13). 그래서 운영이
+읽는 판은 **가격기 lock 을 올린 BE 를 배포할 때** 바뀌고, `master` 를 올려도 운영 가격기는 움직이지 않는다
+(2026-11-16 실측: `master` 를 `48aa81a` 로 올린 뒤에도 운영은 lock 커밋 `4859cce` 에 detached 로 머물렀다).
+- lock 태그는 BE 배포 **전에** 원격에 있어야 한다 — 운영은 그 태그(없으면 커밋 SHA)를 받아 온다. 못 맞추면 브랜치
+  끝으로 물러서지 않고 지금 상태로 두며, 그 판이 가격기 lock 과 다르면 파이프라인이 `snapshot 불일치` 로 멈춘다.
+- `master` 는 그래도 릴리즈 기준선이다 — 운영 가격기가 같은 판으로 배포된 뒤 develop → master 머지로 올린다.
+- 바뀌기 전 사고: 그때는 매시 스크립트가 `master` 끝으로 fast-forward 했다. 2026-10-13 에 v2026.10.13.1 로
+  `master` 를 먼저 올렸다가 운영 파이프라인·PSAPI 수집기가 12:06 부터 `snapshot 불일치` 로 실패했고, 옛 트리를 담은
+  되돌림 커밋(e97b081)으로 복구했다. 되돌릴 때는 지금도 강제 push 대신 새 커밋으로 한다.
 
 **태그는 손으로 붙이지 않는다** — poe-ggpk-extractor `npm run release:tag -- <tag>` 가 세
 `_index.json` snapshot 이 태그와 같은지 보고 붙인다. 스냅샷은 `release:full` 로 만든다(아래 「하나의 기준
